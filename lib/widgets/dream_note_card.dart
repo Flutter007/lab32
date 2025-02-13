@@ -27,7 +27,7 @@ class DreamNoteCard extends StatelessWidget {
                 children: [
                   Text(
                     textAlign: TextAlign.end,
-                    'Отход ко сну:\n ${formatDateTime(dreamNote.bedtime!)}',
+                    'Отход ко сну:\n ${formatDateTime(dreamNote.bedtime)}',
                     style: titleSmallStyle,
                   ),
                 ],
@@ -38,7 +38,7 @@ class DreamNoteCard extends StatelessWidget {
                 children: [
                   Text(
                     textAlign: TextAlign.end,
-                    'Время пробуждения :\n ${formatDateTime(dreamNote.wakeUpTime!)}',
+                    'Время пробуждения :\n ${formatDateTime(dreamNote.wakeUpTime)}',
                     style: titleSmallStyle,
                   ),
                 ],

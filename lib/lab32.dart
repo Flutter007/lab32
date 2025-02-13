@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lab32/models/dream_note.dart';
 import 'package:lab32/screens/dream_diary_screen.dart';
+import 'package:lab32/widgets/add_dream_note.dart';
 
 class Lab32 extends StatefulWidget {
   const Lab32({super.key});
@@ -18,6 +19,15 @@ class _Lab32State extends State<Lab32> {
       wakeUpTime: DateTime(2024, 03, 03),
     ),
   ];
+  void openAddDreamNote() {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      useSafeArea: true,
+      context: context,
+      builder: (ctx) => AddDreamNote(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -33,7 +43,7 @@ class _Lab32State extends State<Lab32> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: openAddDreamNote,
             icon: Icon(
               Icons.add,
               size: 32,

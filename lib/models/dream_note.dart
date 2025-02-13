@@ -4,16 +4,16 @@ const uuid = Uuid();
 
 class DreamNote {
   final String id;
-  DateTime? bedtime;
-  DateTime? wakeUpTime;
-  final int rating;
+  DateTime bedtime;
+  DateTime wakeUpTime;
+  int rating;
   final String notes;
 
   DreamNote({
     String? id,
     required this.rating,
     required this.notes,
-    this.bedtime,
-    this.wakeUpTime,
+    required this.bedtime,
+    required this.wakeUpTime,
   }) : id = id ?? uuid.v4();
 }
