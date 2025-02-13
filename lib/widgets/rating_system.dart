@@ -14,7 +14,7 @@ class RatingSystem extends StatelessWidget {
         children: [
           Text('Оцените Ваш Сон:',
               style: Theme.of(context).textTheme.titleLarge!),
-          SizedBox(height: 20),
+          SizedBox(height: 10),
           Row(
             children: [
               RatingButton(

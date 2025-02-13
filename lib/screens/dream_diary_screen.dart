@@ -5,10 +5,20 @@ import 'package:lab32/widgets/dream_note_card.dart';
 
 class DreamDiaryScreen extends StatelessWidget {
   final List<DreamNote> dreamNotes;
-  const DreamDiaryScreen({super.key, required this.dreamNotes});
+  final void Function(DreamNote) openInfo;
+  final void Function(String id) removeNote;
+  final void Function(String id) editNote;
+  const DreamDiaryScreen({
+    super.key,
+    required this.dreamNotes,
+    required this.openInfo,
+    required this.removeNote,
+    required this.editNote,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ListView.builder(
       itemBuilder: (ctx, index) {
         final dreamNote = dreamNotes[index];
@@ -17,18 +27,25 @@ class DreamDiaryScreen extends StatelessWidget {
             motion: DrawerMotion(),
             children: [
               SlidableAction(
-                onPressed: (context) => (),
+                backgroundColor: theme.colorScheme.error.withAlpha(220),
+                onPressed: (context) => removeNote(dreamNote.id),
                 label: 'Delete',
                 icon: Icons.delete,
+                borderRadius: BorderRadius.circular(13),
               ),
               SlidableAction(
-                onPressed: (context) => (),
+                onPressed: (context) => editNote(dreamNote.id),
+                backgroundColor: theme.colorScheme.secondary.withAlpha(220),
                 label: 'Edit',
                 icon: Icons.edit,
+                borderRadius: BorderRadius.circular(13),
               ),
             ],
           ),
-          child: DreamNoteCard(openInfo: () {}, dreamNote: dreamNote),
+          child: DreamNoteCard(
+            openInfo: () => openInfo(dreamNote),
+            dreamNote: dreamNote,
+          ),
         );
       },
       itemCount: dreamNotes.length,

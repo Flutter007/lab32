@@ -4,6 +4,7 @@ import 'package:lab32/models/dream_note.dart';
 
 class DreamNoteCard extends StatelessWidget {
   final void Function() openInfo;
+
   final DreamNote dreamNote;
   const DreamNoteCard({
     super.key,
@@ -14,35 +15,48 @@ class DreamNoteCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final difference = DateTime(dreamNote.wakeUpTime.day,
+            dreamNote.wakeUpTime.hour, dreamNote.wakeUpTime.minute)
+        .difference(DateTime(dreamNote.bedtime.day, dreamNote.bedtime.hour,
+            dreamNote.bedtime.minute))
+        .inMinutes;
+
     final titleSmallStyle = theme.textTheme.titleSmall!;
     return GestureDetector(
       onTap: openInfo,
       child: Card(
+        color: Colors.purple.shade100,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     textAlign: TextAlign.end,
-                    'Отход ко сну:\n ${formatDateTime(dreamNote.bedtime)}',
+                    'Отход ко сну: ${formatDateTime(dreamNote.bedtime)}',
                     style: titleSmallStyle,
                   ),
                 ],
               ),
               SizedBox(height: 8),
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    textAlign: TextAlign.end,
-                    'Время пробуждения :\n ${formatDateTime(dreamNote.wakeUpTime)}',
+                    textAlign: TextAlign.center,
+                    'Время пробуждения : ${formatDateTime(dreamNote.wakeUpTime)}',
                     style: titleSmallStyle,
                   ),
                 ],
-              )
+              ),
+              SizedBox(height: 8),
+              Text(
+                'Рейтинг сна : ${dreamNote.rating}',
+                style: titleSmallStyle,
+              ),
+              Text(difference.toString()),
             ],
           ),
         ),

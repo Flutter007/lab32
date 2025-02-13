@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lab32/models/dream_note.dart';
 import 'package:lab32/screens/dream_diary_screen.dart';
-import 'package:lab32/widgets/add_dream_note.dart';
+import 'package:lab32/widgets/dream_note_form.dart';
+import 'package:lab32/widgets/dream_note_info.dart';
 
 class Lab32 extends StatefulWidget {
   const Lab32({super.key});
@@ -19,12 +20,64 @@ class _Lab32State extends State<Lab32> {
       wakeUpTime: DateTime(2024, 03, 03),
     ),
   ];
+
+  void addDreamNote(DreamNote newDreamNote) {
+    setState(() {
+      dreamNotes.add(newDreamNote);
+    });
+  }
+
+  void deleteDreamNote(String id) {
+    setState(() {
+      dreamNotes.removeWhere((dreamNote) => dreamNote.id == id);
+    });
+  }
+
+  void editDreamNote(DreamNote editDreamNote) {
+    setState(() {
+      final index = dreamNotes
+          .indexWhere((dreamNote) => dreamNote.id == editDreamNote.id);
+      dreamNotes[index] = editDreamNote;
+    });
+  }
+
+  void closeInfo() {
+    setState(() {
+      Navigator.pop(context);
+    });
+  }
+
   void openAddDreamNote() {
     showModalBottomSheet(
       isScrollControlled: true,
       useSafeArea: true,
       context: context,
-      builder: (ctx) => AddDreamNote(),
+      builder: (ctx) => DreamNoteForm(
+        onDreamSaved: addDreamNote,
+      ),
+    );
+  }
+
+  void openEditModalSheet(String id) {
+    final toEditNote = dreamNotes.firstWhere((dreamNote) => dreamNote.id == id);
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (ctx) => DreamNoteForm(
+        onDreamSaved: editDreamNote,
+        editedDreamNote: toEditNote,
+      ),
+    );
+  }
+
+  void openInfoSheet(DreamNote dreamNote) {
+    showModalBottomSheet(
+      context: context,
+      builder: (ctx) => DreamNoteInfo(
+        dreamNote: dreamNote,
+        closeInfo: closeInfo,
+      ),
     );
   }
 
@@ -47,13 +100,17 @@ class _Lab32State extends State<Lab32> {
             icon: Icon(
               Icons.add,
               size: 32,
-              color: theme.colorScheme.primary,
+              color: theme.colorScheme.error,
             ),
           ),
         ],
+        backgroundColor: Colors.grey.shade200,
       ),
       body: DreamDiaryScreen(
         dreamNotes: dreamNotes,
+        openInfo: openInfoSheet,
+        removeNote: deleteDreamNote,
+        editNote: openEditModalSheet,
       ),
     );
   }
