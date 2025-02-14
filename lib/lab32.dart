@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lab32/data/dream_notes_data.dart';
 import 'package:lab32/models/dream_note.dart';
 import 'package:lab32/screens/dream_diary_screen.dart';
 import 'package:lab32/widgets/dream_note_form.dart';
@@ -12,25 +13,32 @@ class Lab32 extends StatefulWidget {
 }
 
 class _Lab32State extends State<Lab32> {
-  List<DreamNote> dreamNotes = [
-    DreamNote(
-      rating: 2,
-      notes: '',
-      bedtime: DateTime(2025, 03, 03),
-      wakeUpTime: DateTime(2024, 03, 03),
-    ),
-  ];
+  List<DreamNote> dreamNotes = [];
+  @override
+  void initState() {
+    super.initState();
+    loadDreamNote();
+  }
+
+  void loadDreamNote() async {
+    final loadedDreamNote = await loadDreamNotes();
+    setState(() {
+      dreamNotes = loadedDreamNote;
+    });
+  }
 
   void addDreamNote(DreamNote newDreamNote) {
     setState(() {
       dreamNotes.add(newDreamNote);
     });
+    saveDreamNote(dreamNotes);
   }
 
   void deleteDreamNote(String id) {
     setState(() {
       dreamNotes.removeWhere((dreamNote) => dreamNote.id == id);
     });
+    saveDreamNote(dreamNotes);
   }
 
   void editDreamNote(DreamNote editDreamNote) {
@@ -39,6 +47,7 @@ class _Lab32State extends State<Lab32> {
           .indexWhere((dreamNote) => dreamNote.id == editDreamNote.id);
       dreamNotes[index] = editDreamNote;
     });
+    saveDreamNote(dreamNotes);
   }
 
   void closeInfo() {

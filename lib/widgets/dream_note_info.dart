@@ -16,7 +16,7 @@ class DreamNoteInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final titleMediumTheme = theme.textTheme.titleMedium!;
-    final bedTimeDate = formatDateTime(dreamNote.bedtime);
+    final bedTimeDate = formatDateTime(dreamNote.bedTime);
     final wakeUpDate = formatDateTime(dreamNote.wakeUpTime);
     return Container(
       width: double.infinity,

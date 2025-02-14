@@ -37,7 +37,7 @@ class _AddDreamNoteState extends State<DreamNoteForm> {
       final editedNote = widget.editedDreamNote!;
       notesController.text = editedNote.notes;
       ratingController.text = editedNote.rating.toString();
-      selectedBedTimeDate = editedNote.bedtime;
+      selectedBedTimeDate = editedNote.bedTime;
       selectedBedTimeTime = TimeOfDay.fromDateTime(selectedBedTimeDate);
       selectedWakeUpTimeDate = editedNote.wakeUpTime;
       selectedWakeUpTimeTime = TimeOfDay.fromDateTime(selectedWakeUpTimeDate);
@@ -60,6 +60,13 @@ class _AddDreamNoteState extends State<DreamNoteForm> {
   void selectRating(int selectedRating) {
     setState(() {
       ratingController.text = selectedRating.toString();
+    });
+  }
+
+  bool isRatingSelected = false;
+  void changeIsSelected() {
+    setState(() {
+      isRatingSelected = !isRatingSelected;
     });
   }
 
@@ -89,7 +96,7 @@ class _AddDreamNoteState extends State<DreamNoteForm> {
         id: widget.editedDreamNote?.id,
         rating: int.parse(ratingController.text),
         notes: notesController.text,
-        bedtime: bedTime,
+        bedTime: bedTime,
         wakeUpTime: wakeTime);
     widget.onDreamSaved(addDreamNote);
     Navigator.pop(context);
@@ -97,8 +104,8 @@ class _AddDreamNoteState extends State<DreamNoteForm> {
 
   void onBedTimeDateTap() async {
     final now = DateTime.now();
-    final firstDate = DateTime(now.year, now.month, now.day - 1);
-    final lastDate = DateTime(now.year, now.month, now.day);
+    final firstDate = DateTime(now.year, now.month, now.day);
+    final lastDate = DateTime(now.year, now.month, now.day + 1);
 
     final bedTimeDateFromUser = await showDatePicker(
         context: context,
@@ -129,9 +136,10 @@ class _AddDreamNoteState extends State<DreamNoteForm> {
   }
 
   void onWakeUpTimeDateTap() async {
-    final now = DateTime.now();
-    final firstDate = DateTime(now.year, now.month, now.day);
-    final lastDate = DateTime(now.year, now.month, now.day + 1);
+    final firstDate = DateTime(selectedBedTimeDate.year,
+        selectedBedTimeDate.month, selectedWakeUpTimeDate.day);
+    final lastDate = DateTime(selectedBedTimeDate.year,
+        selectedBedTimeDate.month, selectedBedTimeDate.day + 1);
 
     final wakeUpTimeDateFromUser = await showDatePicker(
         context: context,
@@ -231,7 +239,10 @@ class _AddDreamNoteState extends State<DreamNoteForm> {
               ],
             ),
             SizedBox(height: 20),
-            RatingSystem(selectRating: selectRating),
+            RatingSystem(
+              selectRating: selectRating,
+              changeState: changeIsSelected,
+            ),
             SizedBox(height: 10),
             TextField(
               keyboardType: TextInputType.multiline,

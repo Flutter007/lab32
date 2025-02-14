@@ -3,7 +3,13 @@ import 'package:lab32/widgets/rating_button.dart';
 
 class RatingSystem extends StatelessWidget {
   final Function(int) selectRating;
-  const RatingSystem({super.key, required this.selectRating});
+  final void Function() changeState;
+
+  const RatingSystem({
+    super.key,
+    required this.selectRating,
+    required this.changeState,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -4,7 +4,7 @@ const uuid = Uuid();
 
 class DreamNote {
   final String id;
-  DateTime bedtime;
+  DateTime bedTime;
   DateTime wakeUpTime;
   int rating;
   final String notes;
@@ -13,7 +13,7 @@ class DreamNote {
     String? id,
     required this.rating,
     required this.notes,
-    required this.bedtime,
+    required this.bedTime,
     required this.wakeUpTime,
   }) : id = id ?? uuid.v4();
 }

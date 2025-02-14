@@ -19,6 +19,14 @@ class DreamDiaryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    if (dreamNotes.isEmpty) {
+      return Center(
+        child: Text(
+          'No data loaded!',
+          style: theme.textTheme.titleLarge,
+        ),
+      );
+    }
     return ListView.builder(
       itemBuilder: (ctx, index) {
         final dreamNote = dreamNotes[index];
