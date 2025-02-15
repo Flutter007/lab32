@@ -91,6 +91,14 @@ class _AddDreamNoteState extends State<DreamNoteForm> {
       selectedWakeUpTimeTime.hour,
       selectedWakeUpTimeTime.minute,
     );
+    final diff = wakeTime.difference(bedTime);
+
+    if (bedTime.isAfter(wakeTime) ||
+        (wakeTime.isBefore(bedTime) ||
+            diff.inMinutes >= 1440 ||
+            diff.inMinutes <= 0)) {
+      return;
+    }
 
     final addDreamNote = DreamNote(
         id: widget.editedDreamNote?.id,
@@ -104,8 +112,8 @@ class _AddDreamNoteState extends State<DreamNoteForm> {
 
   void onBedTimeDateTap() async {
     final now = DateTime.now();
-    final firstDate = DateTime(now.year, now.month, now.day);
-    final lastDate = DateTime(now.year, now.month, now.day + 1);
+    final firstDate = DateTime(now.year, now.month, now.day - 1);
+    final lastDate = DateTime(now.year, now.month, now.day);
 
     final bedTimeDateFromUser = await showDatePicker(
         context: context,
@@ -136,10 +144,14 @@ class _AddDreamNoteState extends State<DreamNoteForm> {
   }
 
   void onWakeUpTimeDateTap() async {
-    final firstDate = DateTime(selectedBedTimeDate.year,
-        selectedBedTimeDate.month, selectedWakeUpTimeDate.day);
-    final lastDate = DateTime(selectedBedTimeDate.year,
-        selectedBedTimeDate.month, selectedBedTimeDate.day + 1);
+    final firstDate = selectedBedTimeDate;
+    final lastDate = DateTime(
+      selectedBedTimeDate.year,
+      selectedBedTimeDate.month,
+      selectedBedTimeDate.day + 1,
+      selectedBedTimeTime.hour,
+      selectedBedTimeTime.minute,
+    );
 
     final wakeUpTimeDateFromUser = await showDatePicker(
         context: context,

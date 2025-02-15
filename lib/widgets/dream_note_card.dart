@@ -16,7 +16,7 @@ class DreamNoteCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final difference =
-        dreamNote.wakeUpTime.difference(dreamNote.bedTime).inHours;
+        dreamNote.wakeUpTime.difference(dreamNote.bedTime).inMinutes;
 
     final titleSmallStyle = theme.textTheme.titleSmall!;
     return GestureDetector(
@@ -29,33 +29,34 @@ class DreamNoteCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    textAlign: TextAlign.end,
-                    'Отход ко сну: ${formatDateTime(dreamNote.bedTime)}',
+                    textAlign: TextAlign.center,
+                    'Отход ко сну:\n ${formatDateTime(dreamNote.bedTime)}',
+                    style: titleSmallStyle,
+                  ),
+                  Text(
+                    'Рейтинг сна : ${dreamNote.rating}',
+                    style: titleSmallStyle,
+                  ),
+                  Text(
+                    textAlign: TextAlign.center,
+                    'Время пробуждения :\n ${formatDateTime(dreamNote.wakeUpTime)}',
                     style: titleSmallStyle,
                   ),
                 ],
               ),
               SizedBox(height: 8),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  SizedBox(height: 8),
                   Text(
-                    textAlign: TextAlign.center,
-                    'Время пробуждения : ${formatDateTime(dreamNote.wakeUpTime)}',
+                    'Продолжительность сна: ${difference.toString()} min',
                     style: titleSmallStyle,
                   ),
                 ],
-              ),
-              SizedBox(height: 8),
-              Text(
-                'Рейтинг сна : ${dreamNote.rating}',
-                style: titleSmallStyle,
-              ),
-              SizedBox(height: 8),
-              Text(
-                'Продолжительность сна: ${difference.toString()}',
-                style: titleSmallStyle,
               ),
             ],
           ),
